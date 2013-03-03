@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-. screen.sh
+THIS_DIR=$(cd $(dirname "$0") && pwd)
+
+. $THIS_DIR/screen.sh
 
 # start ovs
-. ovs.sh
+. $THIS_DIR/ovs.sh
 
 # start xcp
 screen_it xcp-fe /root/.opam/system/bin/xcp-fe
