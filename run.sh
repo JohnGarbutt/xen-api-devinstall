@@ -12,3 +12,7 @@ screen_it networkd /opt/xensource/libexec/xcp-networkd
 screen_it xenopsd /opt/xensource/libexec/xenopsd
 screen_it xapi "/opt/xensource/bin/xapi -nowatchdog"
 screen_it logs "tail -f /var/log/messages" 
+
+echo "**********************************"
+echo "To attach to screen: screen -x xcp"
+echo "**********************************"
