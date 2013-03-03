@@ -7,6 +7,9 @@ THIS_DIR=$(cd $(dirname "$0") && pwd)
 # start ovs
 . $THIS_DIR/ovs.sh
 
+# setup OCAML
+export OCAMLRUNPARAM=b
+
 # start xcp
 screen_it xcp-fe "$STRACE_CMD /root/.opam/system/bin/xcp-fe"
 screen_it v6d "$STRACE_CMD /opt/xensource/libexec/v6d"
