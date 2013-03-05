@@ -8,13 +8,14 @@ THIS_DIR=$(cd $(dirname "$0") && pwd)
 . $THIS_DIR/ovs.sh
 
 # setup OCAML
-export OCAMLRUNPARAM=b
+STRACE_CMD="export OCAMLRUNPARAM=b; $STRACE_CMD"
 
 # start xcp
 screen_it xcp-fe "$STRACE_CMD /root/.opam/system/bin/xcp-fe"
 screen_it v6d "$STRACE_CMD /opt/xensource/libexec/v6d"
 screen_it networkd "$STRACE_CMD /opt/xensource/libexec/xcp-networkd"
 screen_it xenopsd "$STRACE_CMD /opt/xensource/libexec/xenopsd"
+screen_it squeezed "$STRACE_CMD /opt/xensource/libexec/squeezed"
 screen_it xapi "$STRACE_CMD /opt/xensource/bin/xapi -nowatchdog"
 screen_it logs "tail -f /var/log/messages" 
 
