@@ -170,6 +170,7 @@ function xapi_sm_build {
     fi
 
     _install swig python-devel
+    install_automake_autoconf
 
     if [ -a xcp-storage-managers ]
     then
