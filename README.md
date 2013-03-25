@@ -10,9 +10,9 @@ There are two top level scripts...
 
 install.sh
 ----------
-Installs Xen and OCAML
-Builds OPAM, OVS and XAPI
-You will need to restart before running run.sh
+Installs Xen and OCAML    
+Builds OPAM, OVS and XAPI    
+You must restart before running run.sh
 
 run.sh
 ------
