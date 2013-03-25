@@ -51,6 +51,8 @@ function xapi_configure {
 }
 
 function xapi_build {
+    xapi_deps_install
+
     git clone https://github.com/JohnGarbutt/xen-api.git
     cd xen-api
     git checkout centos64
@@ -61,4 +63,22 @@ function xapi_build {
     make install
 
     xapi_configure
+}
+
+
+function ovs_build {
+    _install openssl-devel
+
+    # HACK see: http://openvswitch.org/pipermail/discuss/2012-August/008064.html
+    cp /usr/share/aclocal/pkg.m4 /usr/local/share/aclocal-1.13/
+
+    wget http://openvswitch.org/releases/openvswitch-1.4.5.tar.gz
+    tar -xf openvswitch-1.4.5.tar.gz
+    cd openvswitch-1.4.5
+    ./boot.sh
+    ./configure
+    make
+
+    prefix=/usr
+    make install
 }

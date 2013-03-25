@@ -11,6 +11,7 @@ xen_install
 opam_build
 xapi_deps_install
 xapi_build
+ovs_build
 
 echo "*************************************"
 echo " Xen has been installed."
