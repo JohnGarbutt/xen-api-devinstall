@@ -5,11 +5,12 @@ function _install {
 }
 
 function _tools_install {
-    _install make gcc
+    _install make gcc wget git
 }
 
 function opam_build {
     _tools_install
+    _install ocaml
 
     wget https://github.com/OCamlPro/opam/archive/latest.tar.gz -O opam-latest.tgz
     tar -xf opam-latest.tgz

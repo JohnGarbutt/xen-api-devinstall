@@ -9,5 +9,5 @@ xen_install
 . $THIS_DIR/build-utils.sh
 
 opam_build
-
-. $THIS_DIR/run-screen.sh
+xapi_deps_install
+xapi_build
