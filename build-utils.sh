@@ -21,7 +21,7 @@ function ocaml_install {
     rpms=$(echo $rpm_prefixes | sed "s/ /${rpm_suffix} /g")
     for rpm_name in $rpms
     do
-        if [-a ${rpm_name}]
+        if [ -a ${rpm_name} ]
         then
             echo "Skipping download of ${rpm_name}"
         else
