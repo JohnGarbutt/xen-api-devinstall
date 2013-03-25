@@ -76,8 +76,42 @@ function opam_build {
     echo 'eval `opam config env`' >> ~/.bash_profile
 }
 
+function _download_tar {
+    url=$1
+    dir=$2
+    prog=$3
+    tar=${dir}.tgz
+
+    if [ `which $prog` ]
+    then
+        echo "$prog already installed"
+        return
+    fi
+
+    if [ -a $dir ]
+    then
+        echo "Skipping download of $prog"
+    else
+        wget $1 -O $tar
+        tar -xf $tar
+        rm -rf $tar
+    fi
+
+    cd $dir
+    ./configure
+    make
+    make install
+}
+
+function install_automake_autoconf {
+    # we build this becuase ovs build needs autoconf > 2.64
+    _download_tar "http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz" "autoconf-2.69" "autoconf"
+    _download_tar "http://ftp.gnu.org/gnu/automake/automake-1.13.tar.gz" "automake-1.13" "automake"
+}
+
 function xapi_deps_install {
-    _install xen-devel libuuid-devel time pam-devel tk-devel libvirt-devel zlib-devel autoconf automake
+    install_automake_autoconf
+    _install xen-devel libuuid-devel time pam-devel tk-devel libvirt-devel zlib-devel
 
     wget http://a94cd2de16980073c274-9e5915cce229bfd373f03bf01a9a7c85.r57.cf3.rackcdn.com/vncterm-1.6.10-251.x86_64.rpm
     rpm -i --replacepkgs vncterm-1.6.10-251.x86_64.rpm
