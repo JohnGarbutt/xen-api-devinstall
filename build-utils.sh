@@ -132,10 +132,15 @@ function xapi_sm_build {
 
     _install swig python-devel
 
-    rm -rf xcp-storage-managers
-    git clone https://github.com/JohnGarbutt/xcp-storage-managers.git
-    cd xcp-storage-managers
-    git checkout centos63-hacks 
+    if [ -a xcp-storage-managers ]
+    then
+        echo "Skipping download of xen-api"
+        cd xcp-storage-managers
+    else
+        git clone https://github.com/JohnGarbutt/xcp-storage-managers.git
+        cd xcp-storage-managers
+        git checkout centos63-hacks 
+    fi
 
     export DESTDIR=/
     export PYTHON_INCLUDE=/usr/include/python2.6/
