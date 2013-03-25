@@ -15,6 +15,7 @@ xen_install
 
 opam_build
 xapi_build
+xapi_sm_build
 ovs_build
 
 echo "*************************************"
