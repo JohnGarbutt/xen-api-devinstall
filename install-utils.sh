@@ -15,7 +15,7 @@ function _xen_update_grub_conf {
     mv /etc/grub.conf /etc/grub.conf.old.`date "+%Y%m%d%H%M%S"`
 
     dom0_mem=${dom0_mem:-"1024M"}
-    kernel_version=$(rpm -q kernel | grep 3.4 | sed "s/kernel-//")
+    kernel_version=$(rpm -q kernel | grep 3.4)
     vg=$(lvm vgdisplay | grep Name | cut -c 25- )
 
     cat > /etc/grub.conf << EOF
