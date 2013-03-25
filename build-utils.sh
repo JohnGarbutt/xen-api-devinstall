@@ -210,6 +210,7 @@ function ovs_build {
     else
         wget http://openvswitch.org/releases/openvswitch-1.4.5.tar.gz
         tar -xf openvswitch-1.4.5.tar.gz
+        rm -rf openvswitch-1.4.5.tar.gz
     fi
 
     cd openvswitch-1.4.5
@@ -219,4 +220,12 @@ function ovs_build {
 
     prefix=/usr
     make install
+
+    echo "
+# Stop using bridge, using openvswitch instead
+blacklist bridge
+" >>/etc/modprobe.d/blacklist.conf
+
+    mkdir -p /usr/etc/openvswitch
+    ovsdb-tool create /usr/etc/openvswitch/conf.db vswitchd/vswitch.ovsschema
 }
