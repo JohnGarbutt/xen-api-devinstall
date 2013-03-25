@@ -31,7 +31,7 @@ function ocaml_install {
         fi
     done
 
-    rpm -i $rpms
+    rpm -i $rpms || true
 }
 
 function opam_build {
