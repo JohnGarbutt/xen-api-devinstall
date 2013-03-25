@@ -15,6 +15,8 @@ function opam_config_env {
 }
 
 function ocaml_install {
+    _install gdbm-devel ncurses-devel rpm-build
+
     ocaml_repo="https://nazar.karan.org/results/misc/ocaml/20130319164433/4.00.1-2.el6.x86_64/"
     rpm_suffix="-4.00.1-2.el6.centos.alt.x86_64.rpm"
     rpm_prefixes="ocaml% ocaml-camlp4% ocaml-camlp4-devel% ocaml-compiler-libs% ocaml-debuginfo% ocaml-docs% ocaml-ocamldoc% ocaml-runtime% ocaml-source%"
