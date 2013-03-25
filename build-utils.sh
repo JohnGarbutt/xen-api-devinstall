@@ -51,6 +51,8 @@ function opam_build {
 
     cd opam-latest
     ./configure
+    make clean
+    make uninstall
     make
     make install
 
