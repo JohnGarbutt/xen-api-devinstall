@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+BUILD_DEST=~
+
 function _install {
     sudo yum install -y $@
 }
@@ -13,6 +15,8 @@ function opam_config_env {
 }
 
 function opam_build {
+    cd $BUILD_DEST
+
     _tools_install
     _install ocaml
 
@@ -51,6 +55,8 @@ function xapi_configure {
 }
 
 function xapi_build {
+    cd $BUILD_DEST
+
     xapi_deps_install
 
     git clone https://github.com/JohnGarbutt/xen-api.git
@@ -67,6 +73,8 @@ function xapi_build {
 
 
 function ovs_build {
+    cd $BUILD_DEST
+
     _install openssl-devel
 
     # HACK see: http://openvswitch.org/pipermail/discuss/2012-August/008064.html
