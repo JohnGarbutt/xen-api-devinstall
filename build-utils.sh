@@ -14,11 +14,24 @@ function opam_config_env {
     eval `opam config env`
 }
 
+function ocaml_install {
+    ocaml_repo="https://nazar.karan.org/results/misc/ocaml/20130319164433/4.00.1-2.el6.x86_64/"
+    rpms=$(wget -qO- $ocaml_repo | grep 64.rpm | sed "s/.*href=\"//" | sed "s/\">.*//" | xargs echo)
+ 
+    for rpm_name in $rpms
+    do
+        wget ${ocaml_repo}${rpm_name}
+    done
+
+    rpm -i $rpms
+    rm -rf $rpms
+}
+
 function opam_build {
     cd $BUILD_DEST
 
     _tools_install
-    _install ocaml
+    ocaml_install
 
     wget https://github.com/OCamlPro/opam/archive/latest.tar.gz -O opam-latest.tgz
     tar -xf opam-latest.tgz

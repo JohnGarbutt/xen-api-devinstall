@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eux
+
 THIS_DIR=$(cd $(dirname "$0") && pwd)
 
 . $THIS_DIR/screen.sh
