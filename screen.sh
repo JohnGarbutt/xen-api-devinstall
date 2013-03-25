@@ -6,6 +6,8 @@ LOGDAYS=1
 SCREEN_HARDSTATUS='%{= .} %-Lw%{= .}%> %n%f %t*%{= .}%+Lw%< %-=%{g}(%{d}%H/%l%{g})'
 DEST=/tmp
 
+yum install -y screen
+
 # VAR=$(trueorfalse default-value test-value)
 function trueorfalse() {
     local default=$1
