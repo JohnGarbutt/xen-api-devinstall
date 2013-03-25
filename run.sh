@@ -1,21 +1,16 @@
 #!/usr/bin/env bash
 
-set -eux
-
 THIS_DIR=$(cd $(dirname "$0") && pwd)
+
+# TODO - hack to turn of selinux
+setenforce 0
+
+. $THIS_DIR/ovs.sh
 
 . $THIS_DIR/screen.sh
 
-# hack to turn of selinux
-setenforce 0
-
-# start ovs
-. $THIS_DIR/ovs.sh
-
-# setup OCAML
 STRACE_CMD="export OCAMLRUNPARAM=b; $STRACE_CMD"
 
-# start xcp
 screen_it xcp-fe "$STRACE_CMD /root/.opam/system/bin/xcp-fe"
 screen_it v6d "$STRACE_CMD /opt/xensource/libexec/v6d"
 screen_it networkd "$STRACE_CMD /opt/xensource/libexec/xcp-networkd"
