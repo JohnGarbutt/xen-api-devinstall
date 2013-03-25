@@ -94,7 +94,7 @@ function xapi_deps_install {
 }
 
 function xapi_configure {
-    cat openvswitch >/etc/xensource/network.conf
+    echo openvswitch >/etc/xensource/network.conf
 }
 
 function xapi_sm_build {
@@ -113,12 +113,25 @@ function xapi_sm_build {
 function xapi_build {
     cd $BUILD_DEST
 
+    if [ `which xe` ]
+    then
+        echo "xen-api already installed"
+        return
+    fi
+
     xapi_deps_install
 
-    git clone https://github.com/JohnGarbutt/xen-api.git
-    cd xen-api
-    git checkout centos64
+    if [ -a xen-api ]
+    then
+        echo "Skipping download of xen-api"
+        cd xen-api
+    else
+        git clone https://github.com/JohnGarbutt/xen-api.git
+        cd xen-api
+        git checkout centos64
+    fi
 
+    make clean
     make
 
     set DEST_DIR=/
@@ -132,13 +145,25 @@ function xapi_build {
 function ovs_build {
     cd $BUILD_DEST
 
+    if [ `which ovs-vsctl` ]
+    then
+        echo "ovs already installed"
+        return
+    fi
+
     _install openssl-devel
 
     # HACK see: http://openvswitch.org/pipermail/discuss/2012-August/008064.html
     cp /usr/share/aclocal/pkg.m4 /usr/local/share/aclocal-1.13/
 
-    wget http://openvswitch.org/releases/openvswitch-1.4.5.tar.gz
-    tar -xf openvswitch-1.4.5.tar.gz
+    if [ -a openvswitch-1.4.5 ]
+    then
+        echo "Skipping download of ovs"
+    else
+        wget http://openvswitch.org/releases/openvswitch-1.4.5.tar.gz
+        tar -xf openvswitch-1.4.5.tar.gz
+    fi
+
     cd openvswitch-1.4.5
     ./boot.sh
     ./configure
