@@ -44,11 +44,12 @@ function opam_build {
     then
         echo "Skipping download of Opam"
     else
-        wget https://github.com/OCamlPro/opam/archive/latest.tar.gz -O opam.tgz
-        tar -xf opam.tgz
-        cd opam
+        wget https://github.com/OCamlPro/opam/archive/latest.tar.gz -O opam-latest.tgz
+        tar -xf opam-latest.tgz
+        rm -rf opam-latest.tgz
     fi
 
+    cd opam-latest
     ./configure
     make
     make install
