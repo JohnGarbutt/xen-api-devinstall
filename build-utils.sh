@@ -130,6 +130,11 @@ function xapi_build {
 function xapi_sm_build {
     cd $BUILD_DEST
 
+    if [ -a /opt/xensource/sm/FileSR ]
+    then
+        echo "xapi sm already installed"
+    fi
+
     _install swig python-devel
 
     if [ -a xcp-storage-managers ]
