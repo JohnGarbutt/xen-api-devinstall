@@ -16,15 +16,18 @@ function opam_config_env {
 
 function ocaml_install {
     ocaml_repo="https://nazar.karan.org/results/misc/ocaml/20130319164433/4.00.1-2.el6.x86_64/"
-    rpms=$(wget -qO- $ocaml_repo | grep 64.rpm | sed "s/.*href=\"//" | sed "s/\">.*//" | xargs echo)
- 
+    rpm_suffix="-4.00.1-2.el6.centos.alt.x86_64.rpm"
+    rpm_prefixes="ocaml ocaml-camlp4 ocaml-camlp4-devel ocaml-compiler-libs ocaml-debuginfo ocaml-docs ocaml-ocamldoc ocaml-runtime ocaml-source "
+    rpms=$(echo $rpm_prefixes | sed "s/ /${rpm_suffix} /g")
     for rpm_name in $rpms
     do
-        wget ${ocaml_repo}${rpm_name}
+        if [!(-a ${rpm_name})]
+        then
+            wget ${ocaml_repo}${rpm_name}
+        fi
     done
 
     rpm -i $rpms
-    rm -rf $rpms
 }
 
 function opam_build {
