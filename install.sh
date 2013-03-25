@@ -2,6 +2,9 @@
 
 THIS_DIR=$(cd $(dirname "$0") && pwd)
 
+# hack to turn off selinux
+setenforce 0
+
 . $THIS_DIR/install-utils.sh
 
 xen_install
@@ -9,7 +12,6 @@ xen_install
 . $THIS_DIR/build-utils.sh
 
 opam_build
-xapi_deps_install
 xapi_build
 ovs_build
 

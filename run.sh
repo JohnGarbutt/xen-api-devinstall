@@ -4,6 +4,9 @@ THIS_DIR=$(cd $(dirname "$0") && pwd)
 
 . $THIS_DIR/screen.sh
 
+# hack to turn of selinux
+setenforce 0
+
 # start ovs
 . $THIS_DIR/ovs.sh
 
