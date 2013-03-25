@@ -2,6 +2,10 @@
 
 THIS_DIR=$(cd $(dirname "$0") && pwd)
 
+. $THIS_DIR/install-utils.sh
+
+xen_install
+
 . $THIS_DIR/build-utils.sh
 
 opam_build
