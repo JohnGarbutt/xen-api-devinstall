@@ -135,10 +135,12 @@ function xapi_sm_build {
     rm -rf xcp-storage-managers
     git clone https://github.com/JohnGarbutt/xcp-storage-managers.git
     cd xcp-storage-managers
+    git checkout centos63-hacks 
 
     export DESTDIR=/
     export PYTHON_INCLUDE=/usr/include/python2.6/
     make
+    make install
 }
 
 
