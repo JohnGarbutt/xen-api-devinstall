@@ -18,6 +18,8 @@ xapi_build
 xapi_sm_build
 ovs_build
 
+set +x
+
 echo "*************************************"
 echo " Xen has been installed."
 echo " OVS has been built."
