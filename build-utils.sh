@@ -7,7 +7,7 @@ function _install {
 }
 
 function _tools_install {
-    _install make gcc wget git
+    _install make gcc wget git glibc-static
 }
 
 function opam_config_env {
@@ -15,6 +15,10 @@ function opam_config_env {
 }
 
 function ocaml_install {
+    _install ocaml-camlp4-devel ocaml-ocamldoc
+}
+
+function ocaml_install_ {
     if [ `which ocaml` ]
     then
         echo "ocaml already installed"
@@ -172,9 +176,9 @@ function xapi_build {
         echo "Skipping download of xen-api"
         cd xen-api
     else
-        git clone https://github.com/JohnGarbutt/xen-api.git
+        git clone https://github.com/jonludlam/xen-api.git
         cd xen-api
-        git checkout centos64
+        git checkout fusion
     fi
 
     make
