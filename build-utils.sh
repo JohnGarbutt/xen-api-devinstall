@@ -40,7 +40,7 @@ function opam_build {
     _tools_install
     ocaml_install
 
-    if [ -a opam ]
+    if [ -a opam-latest ]
     then
         echo "Skipping download of Opam"
     else
