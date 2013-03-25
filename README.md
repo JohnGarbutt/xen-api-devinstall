@@ -8,8 +8,8 @@ cd xcp-devinstall
 
 There are two top level scripts...
 
-build.sh
---------
+install.sh
+----------
 Installs Xen and OCAML
 Builds OPAM, OVS and XAPI
 You will need to restart before running run.sh
