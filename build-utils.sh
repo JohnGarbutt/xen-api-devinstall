@@ -54,6 +54,19 @@ function xapi_configure {
     cat openvswitch >/etc/xensource/network.conf
 }
 
+function xapi_sm_build {
+    cd $BUILD_DEST
+
+    _install swig python-devel
+
+    git clone https://github.com/JohnGarbutt/xcp-storage-managers.git
+    cd xcp-storage-managers
+
+    export DESTDIR=/
+    export PYTHON_INCLUDE=/usr/include/python2.6/
+    make
+}
+
 function xapi_build {
     cd $BUILD_DEST
 
@@ -69,6 +82,7 @@ function xapi_build {
     make install
 
     xapi_configure
+    xapi_sm_build
 }
 
 
