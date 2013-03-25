@@ -89,7 +89,7 @@ function xapi_deps_install {
 
     opam install -y ocamlfind omake
 
-    opam remote -y add xen-dev git://github.com/xen-org/opam-repo-dev
+    opam remote -y add xen-dev git://github.com/xen-org/opam-repo-dev || true
     opam install -y xen-api-libs-transitional stdext nbd tapctl libvhd oclock cdrom netdev xenopsd
 }
 
