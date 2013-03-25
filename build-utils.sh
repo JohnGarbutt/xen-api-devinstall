@@ -166,6 +166,7 @@ function ovs_build {
     _install openssl-devel
 
     # HACK see: http://openvswitch.org/pipermail/discuss/2012-August/008064.html
+    mkdir -p /usr/local/share/aclocal-1.13/
     cp /usr/share/aclocal/pkg.m4 /usr/local/share/aclocal-1.13/
 
     if [ -a openvswitch-1.4.5 ]
