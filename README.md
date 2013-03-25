@@ -3,7 +3,7 @@ xcp-devinstall
 
 Shell scripts to help build run XCP as a developer on CentOS 6.x
 
-git clone https://github.com/JohnGarbutt/xcp-devinstall.git
+git clone https://github.com/JohnGarbutt/xcp-devinstall.git  
 cd xcp-devinstall
 
 There are two top level scripts...
