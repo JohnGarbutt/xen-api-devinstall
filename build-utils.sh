@@ -15,6 +15,12 @@ function opam_config_env {
 }
 
 function ocaml_install {
+    if [ `which ocaml` ]
+    then
+        echo "ocaml already installed"
+        return
+    fi
+
     _install gdbm-devel ncurses-devel rpm-build
 
     ocaml_repo="https://nazar.karan.org/results/misc/ocaml/20130319164433/4.00.1-2.el6.x86_64/"
@@ -37,9 +43,15 @@ function ocaml_install {
 function opam_build {
     cd $BUILD_DEST
 
+    if [ `which opam` ]
+    then
+        echo "opam already installed"
+        return
+    fi
+
     _tools_install
     ocaml_install
-
+    
     if [ -a opam-latest ]
     then
         echo "Skipping download of Opam"
@@ -51,8 +63,11 @@ function opam_build {
 
     cd opam-latest
     ./configure
+    
     make clean
     make uninstall
+    rm -rf ~/.opam
+
     make
     make install
 
