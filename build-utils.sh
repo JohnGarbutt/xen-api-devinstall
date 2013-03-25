@@ -40,15 +40,20 @@ function opam_build {
     _tools_install
     ocaml_install
 
-    wget https://github.com/OCamlPro/opam/archive/latest.tar.gz -O opam-latest.tgz
-    tar -xf opam-latest.tgz
+    if [ -a opam ]
+    then
+        echo "Skipping download of Opam"
+    else
+        wget https://github.com/OCamlPro/opam/archive/latest.tar.gz -O opam.tgz
+        tar -xf opam.tgz
+        cd opam
+    fi
 
-    cd opam-latest
     ./configure
     make
     make install
 
-    opam init
+    opam init -y
     opam_config_env
     echo 'eval `opam config env`' >> ~/.bash_profile
 }
