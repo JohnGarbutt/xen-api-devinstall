@@ -37,7 +37,7 @@ function ocaml_install {
         fi
     done
 
-    rpm -i $rpms || true
+    rpm -i --replacepkgs $rpms
 }
 
 function opam_build {
@@ -80,7 +80,7 @@ function xapi_deps_install {
     _install xen-devel libuuid-devel time pam-devel tk-devel libvirt-devel zlib-devel
 
     wget http://a94cd2de16980073c274-9e5915cce229bfd373f03bf01a9a7c85.r57.cf3.rackcdn.com/vncterm-1.6.10-251.x86_64.rpm
-    rpm -i vncterm-1.6.10-251.x86_64.rpm || true
+    rpm -i --replacepkgs vncterm-1.6.10-251.x86_64.rpm
 
     wget http://a94cd2de16980073c274-9e5915cce229bfd373f03bf01a9a7c85.r57.cf3.rackcdn.com/eliloader -O /usr/bin/eliloader
     chmod +x /usr/bin/eliloader
