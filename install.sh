@@ -11,3 +11,11 @@ xen_install
 opam_build
 xapi_deps_install
 xapi_build
+
+echo "*************************************"
+echo " Xen has been installed."
+echo " OVS has been built."
+echo " XAPI has been built and installed."
+echo "*************************************"
+echo " Please reboot now!"
+echo "*************************************"
