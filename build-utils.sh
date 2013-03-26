@@ -96,7 +96,7 @@ function _download_and_extract_tar {
     else
         wget $1 -O $tar
         tar -xf $tar
-        rm -rf $tar
+        rm -f $tar
     fi
 
     cd $dir
@@ -104,6 +104,12 @@ function _download_and_extract_tar {
 
 function _build_tar {
     _download_and_extract_tar $@
+
+    prog=$3
+    if [ `which $prog` ]
+    then
+        return
+    fi
 
     ./configure
     make
