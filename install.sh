@@ -5,7 +5,7 @@ set -eux
 THIS_DIR=$(cd $(dirname "$0") && pwd)
 
 # hack to turn off selinux
-setenforce 0
+setenforce 0 || true
 
 . $THIS_DIR/install-utils.sh
 

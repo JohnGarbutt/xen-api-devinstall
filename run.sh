@@ -3,7 +3,7 @@
 THIS_DIR=$(cd $(dirname "$0") && pwd)
 
 # TODO - hack to turn of selinux
-setenforce 0
+setenforce 0 || true
 
 . $THIS_DIR/ovs.sh
 
