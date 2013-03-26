@@ -13,3 +13,5 @@ xe pif-scan host-uuid=$host_uuid
 pif_uuid=`xe pif-list --minimal`
 xe pif-reconfigure-ip uuid=$pif_uuid mode=dhcp
 xe host-management-reconfigure pif-uuid=$pif_uuid
+
+xe host-call-plugin host-uuid=$host_uuid plugin=openvswitch-cfg-update fn=update

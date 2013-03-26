@@ -141,6 +141,13 @@ function xapi_deps_install {
 
 function xapi_configure {
     echo openvswitch >/etc/xensource/network.conf
+    sed -i "s/MANAGEMENT_INTERFACE.*/MANAGEMENT_INTERFACE='xenbr0'/" /etc/xensource-inventory
+
+    (
+        cd /etc/xapi.d/plugins
+        wget http://a94cd2de16980073c274-9e5915cce229bfd373f03bf01a9a7c85.r57.cf3.rackcdn.com/openvswitch-cfg-update
+        chmod +x openvswitch-cfg-update
+    )
 }
 
 function xapi_build {
