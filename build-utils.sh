@@ -158,6 +158,12 @@ function xapi_configure {
         wget http://a94cd2de16980073c274-9e5915cce229bfd373f03bf01a9a7c85.r57.cf3.rackcdn.com/openvswitch-cfg-update
         chmod +x openvswitch-cfg-update
     )
+
+    _install busybox
+    ln -s /sbin/busybox /opt/xensource/libexec/udhcpd
+
+    #TODO need to install domain_sethandle
+    domain_sethandle -domid 0 -handle $CONTROL_DOMAIN_UUID
 }
 
 function xapi_build {
