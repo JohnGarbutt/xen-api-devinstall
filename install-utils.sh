@@ -15,9 +15,9 @@ function _xen_update_grub_conf {
     grub_conf=$(readlink -f /etc/grub.conf)
    
     set +e 
-    if [ -n "`grep "title xen" /etc/grub.conf`" ]
+    if [ -n "`grep "title" -m 1 $grub_conf | grep "title xen" $grub_conf`" ]
     then
-        echo "xen already in grub.conf"
+        echo "xen already first in grub.conf"
         return
     fi
     set -e
@@ -31,7 +31,7 @@ function _xen_update_grub_conf {
     grep "title" $old_grub_conf -B 1000 -m 1 | grep -v title | cat >> $grub_conf
 
     dom0_mem=${dom0_mem:-"1024M"}
-    kernel_version=$(rpm -q kernel | grep 3.4)
+    kernel_version=$(rpm -q kernel | grep 3.4 -m 1 | sed "s/kernel-//")
     vg=$(lvm vgdisplay | grep Name | cut -c 25- )
     cat >> $grub_conf << EOF
 title xen
