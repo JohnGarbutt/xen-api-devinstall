@@ -9,6 +9,7 @@ function _xen_repo_install {
     cd /etc/yum.repos.d/
     wget http://dev.centos.org/centos/6/xen-c6/xen-c6.repo
     yum repolist
+    yum upgrade -y
 }
 
 function _xen_update_grub_conf {
