@@ -1,8 +1,9 @@
 xcp-devinstall
 ==============
 
-Shell scripts to help build run XCP as a developer on CentOS 6.x
+Shell scripts to help build run XCP as a developer on CentOS 6.4 minimal.
 
+yum install git -y    
 git clone https://github.com/JohnGarbutt/xcp-devinstall.git    
 cd xcp-devinstall
 
