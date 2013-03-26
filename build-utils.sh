@@ -102,7 +102,7 @@ function _download_and_extract_tar {
     cd $dir
 }
 
-function _buid_tar {
+function _build_tar {
     _download_and_extract_tar $@
 
     ./configure
@@ -132,6 +132,11 @@ function xapi_deps_install {
 
     opam remote -y add xen-dev git://github.com/xen-org/opam-repo-dev || true
     opam install -y xen-api-libs-transitional stdext nbd tapctl libvhd oclock cdrom netdev xenopsd
+
+    rpm_name=epel-release-6-8.noarch.rpm
+    wget "http://dl.fedoraproject.org/pub/epel/6/x86_64/${rpm_name}"
+    rpm -i --replacepkgs $rpm_name
+    _install bash-completion
 }
 
 function xapi_configure {
