@@ -214,6 +214,8 @@ function ovs_build {
 
     _download_and_extract_tar "http://openvswitch.org/releases/openvswitch-1.4.6.tar.gz" "openvswitch-1.4.6" "ovs-vsctl"
     ./configure --prefix=/usr --localstatedir=/var
+    export PREFIX=/usr
+    export LOCALSTATEDIR=/var
     make
     make install
 
@@ -224,15 +226,15 @@ blacklist bridge
     
 
     # do first time start
-    rm -rf
+    rm -rf "/usr/etc/openvswitch"
     mkdir -p "/usr/etc/openvswitch"
     ovsdb-tool create "/usr/etc/openvswitch/conf.db" "vswitchd/vswitch.ovsschema"
-    ovsdb-server --remote=punix:/usr/var/run/openvswitch/db.sock \
+    ovsdb-server --remote=punix:/var/run/openvswitch/db.sock \
                  --remote=db:Open_vSwitch,manager_options \
                  --private-key=db:SSL,private_key \
                  --certificate=db:SSL,certificate \
                  --bootstrap-ca-cert=db:SSL,ca_cert \
                  --pidfile --detach
-    ovs-vsctl init
+    ovs-vsctl --no-wait init
     ovs-vswitchd --pidfile --detach
 }
