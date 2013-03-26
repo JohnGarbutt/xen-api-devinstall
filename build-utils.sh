@@ -164,6 +164,8 @@ function xapi_configure {
 
     #TODO need to install domain_sethandle
     domain_sethandle -domid 0 -handle $CONTROL_DOMAIN_UUID
+
+    easy_install XenAPI
 }
 
 function xapi_build {
