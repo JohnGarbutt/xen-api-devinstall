@@ -76,7 +76,7 @@ function opam_build {
     echo 'eval `opam config env`' >> ~/.bash_profile
 }
 
-function _download_tar {
+function _build_tar {
     url=$1
     dir=$2
     prog=$3
@@ -105,8 +105,8 @@ function _download_tar {
 
 function install_automake_autoconf {
     # we build this becuase ovs build needs autoconf > 2.64
-    _download_tar "http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz" "autoconf-2.69" "autoconf"
-    _download_tar "http://ftp.gnu.org/gnu/automake/automake-1.13.tar.gz" "automake-1.13" "automake"
+    _build_tar "http://ftp.gnu.org/gnu/autoconf/autoconf-2.69.tar.gz" "autoconf-2.69" "autoconf"
+    _build_tar "http://ftp.gnu.org/gnu/automake/automake-1.13.tar.gz" "automake-1.13" "automake"
 }
 
 function xapi_deps_install {
@@ -192,40 +192,37 @@ function xapi_sm_build {
 function ovs_build {
     cd $BUILD_DEST
 
+    _install openssl-devel
+    install_automake_autoconf
+
     if [ `which ovs-vsctl` ]
     then
         echo "ovs already installed"
         return
     fi
 
-    _install openssl-devel
-
     # HACK see: http://openvswitch.org/pipermail/discuss/2012-August/008064.html
     mkdir -p /usr/local/share/aclocal-1.13/
     cp /usr/share/aclocal/pkg.m4 /usr/local/share/aclocal-1.13/
 
-    if [ -a openvswitch-1.4.5 ]
-    then
-        echo "Skipping download of ovs"
-    else
-        wget http://openvswitch.org/releases/openvswitch-1.4.5.tar.gz
-        tar -xf openvswitch-1.4.5.tar.gz
-        rm -rf openvswitch-1.4.5.tar.gz
-    fi
-
-    cd openvswitch-1.4.5
-    ./boot.sh
-    ./configure
-    make
-
-    prefix=/usr
-    make install
+    _build_tar "http://openvswitch.org/releases/openvswitch-1.4.6.tar.gz" "openvswitch-1.4.6" "ovs-vsctl"
 
     echo "
 # Stop using bridge, using openvswitch instead
 blacklist bridge
 " >>/etc/modprobe.d/blacklist.conf
+    
 
-    mkdir -p /usr/etc/openvswitch
-    ovsdb-tool create /usr/etc/openvswitch/conf.db vswitchd/vswitch.ovsschema
+    # do first time start
+    rm -rf
+    mkdir -p /usr/local/etc/openvswitch
+    ovsdb-tool create /usr/local/etc/openvswitch/conf.db vswitchd/vswitch.ovsschema
+    ovsdb-server --remote=punix:/usr/local/var/run/openvswitch/db.sock \
+                 --remote=db:Open_vSwitch,manager_options \
+                 --private-key=db:SSL,private_key \
+                 --certificate=db:SSL,certificate \
+                 --bootstrap-ca-cert=db:SSL,ca_cert \
+                 --pidfile --detach
+    ovs-vsctl --no-wait init
+    ovs-vswitchd --pidfile --detach
 }
