@@ -76,7 +76,7 @@ function opam_build {
     echo 'eval `opam config env`' >> ~/.bash_profile
 }
 
-function _build_tar {
+function _download_and_extract_tar {
     url=$1
     dir=$2
     prog=$3
@@ -88,6 +88,8 @@ function _build_tar {
         return
     fi
 
+    cd $BUILD_DEST
+
     if [ -a $dir ]
     then
         echo "Skipping download of $prog"
@@ -98,6 +100,11 @@ function _build_tar {
     fi
 
     cd $dir
+}
+
+function _buid_tar {
+    _download_and_extract_tar $@
+
     ./configure
     make
     make install
@@ -202,10 +209,13 @@ function ovs_build {
     fi
 
     # HACK see: http://openvswitch.org/pipermail/discuss/2012-August/008064.html
-    mkdir -p /usr/local/share/aclocal-1.13/
-    cp /usr/share/aclocal/pkg.m4 /usr/local/share/aclocal-1.13/
+    #mkdir -p /usr/local/share/aclocal-1.13/
+    #cp /usr/share/aclocal/pkg.m4 /usr/local/share/aclocal-1.13/
 
-    _build_tar "http://openvswitch.org/releases/openvswitch-1.4.6.tar.gz" "openvswitch-1.4.6" "ovs-vsctl"
+    _download_and_extract_tar "http://openvswitch.org/releases/openvswitch-1.4.6.tar.gz" "openvswitch-1.4.6" "ovs-vsctl"
+    ./configure --prefix=/usr --localstatedir=/var
+    make
+    make install
 
     echo "
 # Stop using bridge, using openvswitch instead
@@ -215,14 +225,14 @@ blacklist bridge
 
     # do first time start
     rm -rf
-    mkdir -p /usr/local/etc/openvswitch
-    ovsdb-tool create /usr/local/etc/openvswitch/conf.db vswitchd/vswitch.ovsschema
-    ovsdb-server --remote=punix:/usr/local/var/run/openvswitch/db.sock \
+    mkdir -p "/usr/etc/openvswitch"
+    ovsdb-tool create "/usr/etc/openvswitch/conf.db" "vswitchd/vswitch.ovsschema"
+    ovsdb-server --remote=punix:/usr/var/run/openvswitch/db.sock \
                  --remote=db:Open_vSwitch,manager_options \
                  --private-key=db:SSL,private_key \
                  --certificate=db:SSL,certificate \
                  --bootstrap-ca-cert=db:SSL,ca_cert \
                  --pidfile --detach
-    ovs-vsctl --no-wait init
+    ovs-vsctl init
     ovs-vswitchd --pidfile --detach
 }
