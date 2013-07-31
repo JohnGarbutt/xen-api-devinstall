@@ -6,6 +6,7 @@ function _install {
 
 function _xen_repo_install {
     _install wget
+    _install openssl-devel
     cd /etc/yum.repos.d/
     wget http://dev.centos.org/centos/6/xen-c6/xen-c6.repo
     yum repolist
